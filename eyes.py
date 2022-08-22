@@ -638,20 +638,6 @@ def split( # Recursive simulated pupil response when no analog sensor
 # MAIN LOOP -- runs continuously -------------------------------------------
 
 while True:
-
-	if PUPIL_IN >= 0: # Pupil scale from sensor
-""" 		v = bonnet.channel[PUPIL_IN].value
-		# If you need to calibrate PUPIL_MIN and MAX,
-		# add a 'print v' here for testing.
-		if   v < PUPIL_MIN: v = PUPIL_MIN
-		elif v > PUPIL_MAX: v = PUPIL_MAX
-		# Scale to 0.0 to 1.0:
-		v = (v - PUPIL_MIN) / (PUPIL_MAX - PUPIL_MIN)
-		if PUPIL_SMOOTH > 0:
-			v = ((currentPupilScale * (PUPIL_SMOOTH - 1) + v) /
-			     PUPIL_SMOOTH)
-		frame(v)
- """	else: # Fractal auto pupil scale
-		v = random.random()
-		split(currentPupilScale, v, 4.0, 1.0)
+	v = random.random()
+	split(currentPupilScale, v, 4.0, 1.0)
 	currentPupilScale = v
