@@ -14,7 +14,6 @@ import RPi.GPIO as GPIO
 from svg.path import Path, parse_path
 from xml.dom.minidom import parse
 from gfxutil import *
-from snake_eyes_bonnet import SnakeEyesBonnet
 
 # INPUT CONFIG for eye motion ----------------------------------------------
 # ANALOG INPUTS REQUIRE SNAKE EYES BONNET
@@ -29,9 +28,9 @@ TRACKING        = True  # If True, eyelid tracks pupil
 PUPIL_SMOOTH    = 16    # If > 0, filter input from PUPIL_IN
 PUPIL_MIN       = 0.0   # Lower analog range from PUPIL_IN
 PUPIL_MAX       = 1.0   # Upper "
-WINK_L_PIN      = 22    # GPIO pin for LEFT eye wink button
-BLINK_PIN       = 23    # GPIO pin for blink button (BOTH eyes)
-WINK_R_PIN      = 24    # GPIO pin for RIGHT eye wink button
+WINK_L_PIN      = 0    # GPIO pin for LEFT eye wink button
+BLINK_PIN       = 0    # GPIO pin for blink button (BOTH eyes)
+WINK_R_PIN      = 0    # GPIO pin for RIGHT eye wink button
 AUTOBLINK       = True  # If True, eyes blink autonomously
 CRAZY_EYES      = False # If True, each eye moves in different directions
 
@@ -45,17 +44,6 @@ if WINK_R_PIN >= 0: GPIO.setup(WINK_R_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
 # ADC stuff ----------------------------------------------------------------
-
-# ADC channels are read and stored in a separate thread to avoid slowdown
-# from blocking operations. The animation loop can read at its leisure.
-
-if JOYSTICK_X_IN >= 0 or JOYSTICK_Y_IN >= 0 or PUPIL_IN >= 0:
-	bonnet = SnakeEyesBonnet(daemon=True)
-	bonnet.setup_channel(JOYSTICK_X_IN, reverse=JOYSTICK_X_FLIP)
-	bonnet.setup_channel(JOYSTICK_Y_IN, reverse=JOYSTICK_Y_FLIP)
-	bonnet.setup_channel(PUPIL_IN, reverse=PUPIL_IN_FLIP)
-	bonnet.start()
-
 
 # Load SVG file, extract paths & convert to point lists --------------------
 
@@ -339,8 +327,8 @@ def frame(p):
 	if JOYSTICK_X_IN >= 0 and JOYSTICK_Y_IN >= 0:
 		# Eye position from analog inputs
 
-		curX = bonnet.channel[JOYSTICK_X_IN].value
-		curY = bonnet.channel[JOYSTICK_Y_IN].value
+#		curX = bonnet.channel[JOYSTICK_X_IN].value
+#		curY = bonnet.channel[JOYSTICK_Y_IN].value
 		curX = -30.0 + curX * 60.0
 		curY = -30.0 + curY * 60.0
 	else :
@@ -652,7 +640,7 @@ def split( # Recursive simulated pupil response when no analog sensor
 while True:
 
 	if PUPIL_IN >= 0: # Pupil scale from sensor
-		v = bonnet.channel[PUPIL_IN].value
+""" 		v = bonnet.channel[PUPIL_IN].value
 		# If you need to calibrate PUPIL_MIN and MAX,
 		# add a 'print v' here for testing.
 		if   v < PUPIL_MIN: v = PUPIL_MIN
@@ -663,7 +651,7 @@ while True:
 			v = ((currentPupilScale * (PUPIL_SMOOTH - 1) + v) /
 			     PUPIL_SMOOTH)
 		frame(v)
-	else: # Fractal auto pupil scale
+ """	else: # Fractal auto pupil scale
 		v = random.random()
 		split(currentPupilScale, v, 4.0, 1.0)
 	currentPupilScale = v
