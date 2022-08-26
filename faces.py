@@ -283,35 +283,6 @@ def frame(p):
         # curX = -30.0 + curX * 60.0
         # curY = -30.0 + curY * 60.0
 
-    # Autonomous eye position
-    if isMoving == True:
-        if dt <= moveDuration:
-            scale        = (now - startTime) / moveDuration
-            # Ease in/out curve: 3*t^2-2*t^3
-            scale = 3.0 * scale * scale - 2.0 * scale * scale * scale
-            curX         = startX + (destX - startX) * scale
-            curY         = startY + (destY - startY) * scale
-        else:
-            startX       = destX
-            startY       = destY
-            curX         = destX
-            curY         = destY
-            holdDuration = random.uniform(0.15, 1.7)
-            startTime    = now
-            isMoving     = False
-    else:
-        if dt >= holdDuration:
-            destX        = random.uniform(-30.0, 30.0)
-            n            = math.sqrt(900.0 - destX * destX)
-            destY        = random.uniform(-n, n)
-            # Movement is slower in this version because
-            # the WorldEye display is big and the eye
-            # should have some 'mass' to it.
-            moveDuration = random.uniform(0.12, 0.35)
-            startTime    = now
-            isMoving     = True
-
-
     # Regenerate iris geometry only if size changed by >= 1/2 pixel
     if abs(p - prevPupilScale) >= irisRegenThreshold:
         # Interpolate points between min and max pupil sizes
