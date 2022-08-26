@@ -277,11 +277,12 @@ def frame(p):
     for (x, y, w, h) in faces:
         print((x+w)/2, (y+h)/2)
 
-    # Eye position from analog inputs
-    curX = (x+w)/2
-    curY = (y+h)/2
-    # curX = -30.0 + curX * 60.0
-    # curY = -30.0 + curY * 60.0
+        # Eye position from analog inputs
+        curX = (x+w)/2
+        curY = (y+h)/2
+        # curX = -30.0 + curX * 60.0
+        # curY = -30.0 + curY * 60.0
+
     # Autonomous eye position
     if isMoving == True:
         if dt <= moveDuration:
