@@ -278,8 +278,8 @@ def frame(p):
         print((x+w)/2, (y+h)/2)
 
         # Eye position from analog inputs
-        curX = (x+w)/2
-        curY = (y+h)/2
+        curX = 50
+        curY = 50
         # curX = -30.0 + curX * 60.0
         # curY = -30.0 + curY * 60.0
 
