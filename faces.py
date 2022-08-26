@@ -13,8 +13,6 @@ from gfxutil import *
 # INPUT CONFIG for eye motion ----------------------------------------------
 # ANALOG INPUTS REQUIRE SNAKE EYES BONNET
 
-JOYSTICK_X_IN   = -1    # Analog input for eye horiz pos (-1 = auto)
-JOYSTICK_Y_IN   = -1    # Analog input for eye vert position (")
 PUPIL_IN        = -1    # Analog input for pupil control (-1 = auto)
 JOYSTICK_X_FLIP = False # If True, reverse stick X axis
 JOYSTICK_Y_FLIP = False # If True, reverse stick Y axis
@@ -32,18 +30,6 @@ AUTOBLINK       = True  # If True, eye blinks autonomously
 GPIO.setmode(GPIO.BCM)
 if BLINK_PIN >= 0: GPIO.setup(BLINK_PIN , GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-
-# ADC stuff ----------------------------------------------------------------
-
-# ADC channels are read and stored in a separate thread to avoid slowdown
-# from blocking operations. The animation loop can read at its leisure.
-
-# if JOYSTICK_X_IN >= 0 or JOYSTICK_Y_IN >= 0 or PUPIL_IN >= 0:
-# 	bonnet = SnakeEyesBonnet(daemon=True)
-# 	bonnet.setup_channel(JOYSTICK_X_IN, reverse=JOYSTICK_X_FLIP)
-# 	bonnet.setup_channel(JOYSTICK_Y_IN, reverse=JOYSTICK_Y_FLIP)
-# 	bonnet.setup_channel(PUPIL_IN, reverse=PUPIL_IN_FLIP)
-# 	bonnet.start()
 
 
 # Load SVG file, extract paths & convert to point lists --------------------
@@ -291,40 +277,38 @@ def frame(p):
     for (x, y, w, h) in faces:
         print((x+w)/2, (y+h)/2)
 
-    if JOYSTICK_X_IN >= 0 and JOYSTICK_Y_IN >= 0:
-        # Eye position from analog inputs
-        curX = bonnet.channel[JOYSTICK_X_IN].value
-        curY = bonnet.channel[JOYSTICK_Y_IN].value
-        # curX = -30.0 + curX * 60.0
-        # curY = -30.0 + curY * 60.0
-    else :
-        # Autonomous eye position
-        if isMoving == True:
-            if dt <= moveDuration:
-                scale        = (now - startTime) / moveDuration
-                # Ease in/out curve: 3*t^2-2*t^3
-                scale = 3.0 * scale * scale - 2.0 * scale * scale * scale
-                curX         = startX + (destX - startX) * scale
-                curY         = startY + (destY - startY) * scale
-            else:
-                startX       = destX
-                startY       = destY
-                curX         = destX
-                curY         = destY
-                holdDuration = random.uniform(0.15, 1.7)
-                startTime    = now
-                isMoving     = False
+    # Eye position from analog inputs
+    curX = (x+w)/2
+    curY = (y+h)/2
+    # curX = -30.0 + curX * 60.0
+    # curY = -30.0 + curY * 60.0
+    # Autonomous eye position
+    if isMoving == True:
+        if dt <= moveDuration:
+            scale        = (now - startTime) / moveDuration
+            # Ease in/out curve: 3*t^2-2*t^3
+            scale = 3.0 * scale * scale - 2.0 * scale * scale * scale
+            curX         = startX + (destX - startX) * scale
+            curY         = startY + (destY - startY) * scale
         else:
-            if dt >= holdDuration:
-                destX        = random.uniform(-30.0, 30.0)
-                n            = math.sqrt(900.0 - destX * destX)
-                destY        = random.uniform(-n, n)
-                # Movement is slower in this version because
-                # the WorldEye display is big and the eye
-                # should have some 'mass' to it.
-                moveDuration = random.uniform(0.12, 0.35)
-                startTime    = now
-                isMoving     = True
+            startX       = destX
+            startY       = destY
+            curX         = destX
+            curY         = destY
+            holdDuration = random.uniform(0.15, 1.7)
+            startTime    = now
+            isMoving     = False
+    else:
+        if dt >= holdDuration:
+            destX        = random.uniform(-30.0, 30.0)
+            n            = math.sqrt(900.0 - destX * destX)
+            destY        = random.uniform(-n, n)
+            # Movement is slower in this version because
+            # the WorldEye display is big and the eye
+            # should have some 'mass' to it.
+            moveDuration = random.uniform(0.12, 0.35)
+            startTime    = now
+            isMoving     = True
 
 
     # Regenerate iris geometry only if size changed by >= 1/2 pixel
