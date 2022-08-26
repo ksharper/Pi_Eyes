@@ -278,11 +278,9 @@ def frame(p):
         print((x+w)/2, (y+h)/2)
 
         # Eye position from analog inputs
-#        curX = 200 - (x+w)/2
- #       curY = 100 - (y+h)/2
-    curX = 0
-    curY = 0
-    
+        curX = 200 - (x+w)/2
+        curY = 100 - (y+h)/2
+
     # Regenerate iris geometry only if size changed by >= 1/2 pixel
     if abs(p - prevPupilScale) >= irisRegenThreshold:
         # Interpolate points between min and max pupil sizes
