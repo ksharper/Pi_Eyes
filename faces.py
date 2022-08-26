@@ -18,6 +18,7 @@ while True:
     # Draw the rectangle around each face
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        print((x+w)/2, (y+h)/2)
     # Display
     cv2.imshow('img', img)
     # Stop if escape key is pressed
