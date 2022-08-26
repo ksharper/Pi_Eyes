@@ -277,8 +277,8 @@ def frame(p):
 
 	if JOYSTICK_X_IN >= 0 and JOYSTICK_Y_IN >= 0:
 		# Eye position from analog inputs
-		# curX = bonnet.channel[JOYSTICK_X_IN].value
-		# curY = bonnet.channel[JOYSTICK_Y_IN].value
+		curX = bonnet.channel[JOYSTICK_X_IN].value
+		curY = bonnet.channel[JOYSTICK_Y_IN].value
 		# curX = -30.0 + curX * 60.0
 		# curY = -30.0 + curY * 60.0
 	else :
