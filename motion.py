@@ -55,18 +55,18 @@ while True:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
  
     # Displaying image in gray_scale
-    cv2.imshow("Gray Frame", gray)
+#    cv2.imshow("Gray Frame", gray)
   
     # Displaying the difference in currentframe to
     # the staticframe(very first_frame)
-    cv2.imshow("Difference Frame", diff_frame)
+#    cv2.imshow("Difference Frame", diff_frame)
   
     # Displaying the black and white image in which if
     # intensity difference greater than 30 it will appear white
     cv2.imshow("Threshold Frame", thresh_frame)
   
     # Displaying color frame with contour of motion of object
-    cv2.imshow("Color Frame", frame)
+ #   cv2.imshow("Color Frame", frame)
   
     key = cv2.waitKey(1)
     # if q entered whole process will stop
