@@ -55,22 +55,14 @@ while True:
   
     # Displaying the difference in currentframe to
     # the staticframe(very first_frame)
-#    cv2.imshow("Difference Frame", diff_frame)
+    cv2.imshow("Difference Frame", diff_frame)
   
     # Displaying the black and white image in which if
     # intensity difference greater than 30 it will appear white
-    cv2.imshow("Threshold Frame", thresh_frame)
+#    cv2.imshow("Threshold Frame", thresh_frame)
   
     # Displaying color frame with contour of motion of object
  #   cv2.imshow("Color Frame", frame)
-  
-    key = cv2.waitKey(1)
-    # if q entered whole process will stop
-    if key == ord('q'):
-        # if something is movingthen it append the end time of movement
-        if motion == 1:
-            time.append(datetime.now())
-        break
   
 video.release()
   
