@@ -37,13 +37,20 @@ while True:
     # Finding contour of moving object
     cnts,_ = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
   
+    prev_area = 0
+    largest_countour = 0
     for contour in cnts:
-        if cv2.contourArea(contour) < 100:
-            continue
+        #if cv2.contourArea(contour) < 100:
+        #    continue
 
-        (x, y, w, h) = cv2.boundingRect(contour)
-        # making green rectangle around the moving object
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
+        area = cv2.contourArea(contour)
+        if area > prev_area:
+            prev_area = area
+            largest_countour = contour
+
+    (x, y, w, h) = cv2.boundingRect(largest_countour)
+    # making green rectangle around the moving object
+    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
  
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
