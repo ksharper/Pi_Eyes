@@ -26,6 +26,7 @@ while True:
     # of static_back to our first frame
     if previous_back is None:
         previous_back = gray
+        print("mooo")
         continue
   
     # Difference between static background 
