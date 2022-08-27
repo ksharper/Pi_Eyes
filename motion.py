@@ -1,12 +1,8 @@
-
-# Python program to implement 
-# Webcam Motion Detector
-  
 # importing OpenCV, time and Pandas library
-import cv2, time
+import cv2
   
 # Assigning our static_back to None
-static_back = None
+previous_back = None
   
 # Capturing video
 video = cv2.VideoCapture(0)
@@ -28,13 +24,13 @@ while True:
   
     # In first iteration we assign the value 
     # of static_back to our first frame
-    if static_back is None:
-        static_back = gray
+    if previous_back is None:
+        previous_back = gray
         continue
   
     # Difference between static background 
     # and current frame(which is GaussianBlur)
-    diff_frame = cv2.absdiff(static_back, gray)
+    diff_frame = cv2.absdiff(previous_back, gray)
   
     # If change in between static background and
     # current frame is greater than 30 it will show white color(255)
