@@ -31,7 +31,7 @@ while True:
   
     # If change in between static background and
     # current frame is greater than 30 it will show white color(255)
-    thresh_frame = cv2.threshold(diff_frame, 20, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame = cv2.threshold(diff_frame, 10, 255, cv2.THRESH_BINARY)[1]
     thresh_frame = cv2.dilate(thresh_frame, None, iterations = 2)
   
     # Finding contour of moving object
