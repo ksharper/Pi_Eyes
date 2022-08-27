@@ -324,6 +324,9 @@ def frame(p):
         curX = ((200 + x_center)/4) + 270
         curY = ((100 - y_center)/4)
  
+        previous_x = x_center
+        previous_y = y_center
+
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
   
