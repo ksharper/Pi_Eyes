@@ -223,7 +223,6 @@ blinkStartTime  = 0
 trackingPos = 0.3
 
 # Assigning our static_back to None
-global previous_back
 previous_back = None
 
 # To capture video from webcam. 
@@ -234,7 +233,7 @@ video = cv2.VideoCapture(0)
 
 # Generate one frame of imagery
 def frame(p):
-
+    global previous_back
     global startX, startY, destX, destY, curX, curY
     global moveDuration, holdDuration, startTime, isMoving
     global frames
