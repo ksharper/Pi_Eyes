@@ -55,11 +55,11 @@ while True:
   
     # Displaying the difference in currentframe to
     # the staticframe(very first_frame)
-#    cv2.imshow("Difference Frame", diff_frame)
+    cv2.imshow("Difference Frame", diff_frame)
   
     # Displaying the black and white image in which if
     # intensity difference greater than 30 it will appear white
-    cv2.imshow("Threshold Frame", thresh_frame)
+#    cv2.imshow("Threshold Frame", thresh_frame)
   
     # Displaying color frame with contour of motion of object
  #   cv2.imshow("Color Frame", frame)
