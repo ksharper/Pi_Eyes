@@ -226,7 +226,7 @@ trackingPos = 0.3
 previous_back = None
 previous_x = 200
 previous_y= 100
-max_move = 5
+max_move = 2
 
 # To capture video from webcam. 
 video = cv2.VideoCapture(0)
