@@ -235,7 +235,7 @@ video = cv2.VideoCapture(0)
 
 # Generate one frame of imagery
 def frame(p):
-    global previous_back
+    global previous_back, previous_x, previous_y
     global startX, startY, destX, destY, curX, curY
     global moveDuration, holdDuration, startTime, isMoving
     global frames
