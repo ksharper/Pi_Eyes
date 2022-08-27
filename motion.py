@@ -3,22 +3,10 @@
 # Webcam Motion Detector
   
 # importing OpenCV, time and Pandas library
-import cv2, time, pandas
-# importing datetime class from datetime library
-from datetime import datetime
+import cv2, time
   
 # Assigning our static_back to None
 static_back = None
-  
-# List when any moving object appear
-motion_list = [ None, None ]
-  
-# Time of movement
-time = []
-  
-# Initializing DataFrame, one column is start 
-# time and other column is end time
-df = pandas.DataFrame(columns = ["Start", "End"])
   
 # Capturing video
 video = cv2.VideoCapture(0)
@@ -65,20 +53,7 @@ while True:
         (x, y, w, h) = cv2.boundingRect(contour)
         # making green rectangle around the moving object
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
-  
-    # Appending status of motion
-    motion_list.append(motion)
-  
-    motion_list = motion_list[-2:]
-  
-    # Appending Start time of motion
-    if motion_list[-1] == 1 and motion_list[-2] == 0:
-        time.append(datetime.now())
-  
-    # Appending End time of motion
-    if motion_list[-1] == 0 and motion_list[-2] == 1:
-        time.append(datetime.now())
-  
+ 
     # Displaying image in gray_scale
     cv2.imshow("Gray Frame", gray)
   
@@ -100,13 +75,6 @@ while True:
         if motion == 1:
             time.append(datetime.now())
         break
-  
-# Appending time of motion in DataFrame
-for i in range(0, len(time), 2):
-    df = df.append({"Start":time[i], "End":time[i + 1]}, ignore_index = True)
-  
-# Creating a CSV file in which time of movements will be saved
-df.to_csv("Time_of_movements.csv")
   
 video.release()
   
