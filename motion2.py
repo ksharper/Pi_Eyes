@@ -223,6 +223,7 @@ blinkStartTime  = 0
 trackingPos = 0.3
 
 # Assigning our static_back to None
+global previous_back
 previous_back = None
 
 # To capture video from webcam. 
