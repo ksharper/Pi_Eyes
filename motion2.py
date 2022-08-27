@@ -323,7 +323,7 @@ def frame(p):
             y_center = previous_y - max_move
 
         curX = ((200 + x_center)/4) + 270
-        curY = ((100 - y_center)/4)
+        curY = ((100 - y_center)/4) + 10
  
         previous_x = x_center
         previous_y = y_center
