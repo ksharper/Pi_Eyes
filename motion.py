@@ -48,9 +48,10 @@ while True:
             prev_area = area
             largest_countour = contour
 
-    (x, y, w, h) = cv2.boundingRect(largest_countour)
-    # making green rectangle around the moving object
-    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
+    if largest_countour != 0:
+        (x, y, w, h) = cv2.boundingRect(largest_countour)
+        # making green rectangle around the moving object
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
  
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
