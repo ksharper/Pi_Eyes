@@ -11,10 +11,7 @@ video = cv2.VideoCapture(0)
 while True:
     # Reading frame(image) from video
     check, frame = video.read()
-  
-    # Initializing motion = 0(no motion)
-    motion = 0
-  
+ 
     # Converting color image to gray_scale image
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
   
@@ -26,7 +23,6 @@ while True:
     # of static_back to our first frame
     if previous_back is None:
         previous_back = gray
-        print("mooo")
         continue
   
     # Difference between static background 
@@ -39,17 +35,16 @@ while True:
     thresh_frame = cv2.dilate(thresh_frame, None, iterations = 2)
   
     # Finding contour of moving object
-    # cnts,_ = cv2.findContours(thresh_frame.copy(), 
-    #                    cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+     cnts,_ = cv2.findContours(thresh_frame.copy(), 
+                        cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
   
-    # for contour in cnts:
-    #     if cv2.contourArea(contour) < 10000:
-    #         continue
-    #     motion = 1
-  
-    #     (x, y, w, h) = cv2.boundingRect(contour)
-    #     # making green rectangle around the moving object
-    #     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
+     for contour in cnts:
+         if cv2.contourArea(contour) < 10000:
+             continue
+
+         (x, y, w, h) = cv2.boundingRect(contour)
+         # making green rectangle around the moving object
+         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
  
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
