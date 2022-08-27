@@ -224,6 +224,8 @@ trackingPos = 0.3
 
 # Assigning our static_back to None
 previous_back = None
+previous_x = 200
+previous_y= 100
 
 # To capture video from webcam. 
 video = cv2.VideoCapture(0)
@@ -308,8 +310,19 @@ def frame(p):
         #cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
 
         # Eye position from analog inputs
-        curX = ((200 + (x+w)/2)/4) + 270
-        curY = ((100 - (y+h)/2)/4)
+        x_center = (x+w)/2
+        y_center = (y+h)/2
+        if x_center - previous_x > 10:
+            x_center = previous_x + 10
+        if x_center - previous_x < 10:
+            x_center = previous_x - 10
+        if y_center - previous_y > 10:
+            y_center = previous_y + 10
+        if y_center - previous_y < 10:
+            y_center = previous_y - 10
+
+        curX = ((200 + x_center)/4) + 270
+        curY = ((100 - y_center)/4)
  
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
