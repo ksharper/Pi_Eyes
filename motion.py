@@ -64,6 +64,14 @@ while True:
     # Displaying color frame with contour of motion of object
  #   cv2.imshow("Color Frame", frame)
   
+    key = cv2.waitKey(1)
+    # if q entered whole process will stop
+    if key == ord('q'):
+        # if something is movingthen it append the end time of movement
+        if motion == 1:
+            time.append(datetime.now())
+        break
+  
 video.release()
   
 # Destroying all the windows
