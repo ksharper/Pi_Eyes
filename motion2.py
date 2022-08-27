@@ -226,6 +226,7 @@ trackingPos = 0.3
 previous_back = None
 previous_x = 200
 previous_y= 100
+max_move = 5
 
 # To capture video from webcam. 
 video = cv2.VideoCapture(0)
@@ -235,7 +236,7 @@ video = cv2.VideoCapture(0)
 
 # Generate one frame of imagery
 def frame(p):
-    global previous_back, previous_x, previous_y
+    global previous_back, previous_x, previous_y, max_move
     global startX, startY, destX, destY, curX, curY
     global moveDuration, holdDuration, startTime, isMoving
     global frames
@@ -312,14 +313,14 @@ def frame(p):
         # Eye position from analog inputs
         x_center = (x+w)/2
         y_center = (y+h)/2
-        if x_center - previous_x > 10:
-            x_center = previous_x + 10
-        if x_center - previous_x < 10:
-            x_center = previous_x - 10
-        if y_center - previous_y > 10:
-            y_center = previous_y + 10
-        if y_center - previous_y < 10:
-            y_center = previous_y - 10
+        if x_center - previous_x > max_move:
+            x_center = previous_x + max_move
+        if x_center - previous_x < max_move:
+            x_center = previous_x - max_move
+        if y_center - previous_y > max_move:
+            y_center = previous_y + max_move
+        if y_center - previous_y < max_move:
+            y_center = previous_y - max_move
 
         curX = ((200 + x_center)/4) + 270
         curY = ((100 - y_center)/4)
