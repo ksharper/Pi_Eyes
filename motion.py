@@ -45,11 +45,12 @@ while True:
 
 #    thresh_frame = cv2.morphologyEx(thresh_frame, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (51,51)));
 
-    cnts = np.vstack(cnts)
+    if cnts:
+        cnts = np.vstack(cnts)
 
-    (x, y, w, h) = cv2.boundingRect(cnts)
-    # making green rectangle around the moving object
-    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
+        (x, y, w, h) = cv2.boundingRect(cnts)
+        # making green rectangle around the moving object
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
  
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
