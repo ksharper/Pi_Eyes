@@ -39,10 +39,10 @@ while True:
     # Finding contour of moving object
     cnts,_ = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
   
-    for contour in cnts:
-        if cv2.contourArea(contour) < 100:
-            cv2.fillPoly(thresh_frame, pts=[contour], color=0)
-            continue
+    # for contour in cnts:
+    #     if cv2.contourArea(contour) < 100:
+    #         cv2.fillPoly(thresh_frame, pts=[contour], color=0)
+    #         continue
 
     if cnts:
         cnts = np.vstack(cnts)
@@ -64,10 +64,10 @@ while True:
   
     # Displaying the black and white image in which if
     # intensity difference greater than 30 it will appear white
-    cv2.imshow("Threshold Frame", thresh_frame)
+#    cv2.imshow("Threshold Frame", thresh_frame)
   
     # Displaying color frame with contour of motion of object
-#    cv2.imshow("Color Frame", frame)
+    cv2.imshow("Color Frame", frame)
   
 #    previous_back = gray
 
