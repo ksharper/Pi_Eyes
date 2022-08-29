@@ -45,10 +45,16 @@ while True:
     #         continue
 
     if cnts:
-        cnts = np.vstack(cnts)
+#        cnts = np.vstack(cnts)
+        prev_area = 0
+        largest_countour = 0
+        for contour in cnts:
+            area = cv2.contourArea(contour)
+            if area > prev_area:
+                prev_area = area
+                largest_countour = contour
 
-        (x, y, w, h) = cv2.boundingRect(cnts)
-        # making green rectangle around the moving object
+        (x, y, w, h) = cv2.boundingRect(largest_countour)
 
 #        x_center = math.trunc(x + (w/2))
 #        y_center = math.trunc(y + (h/2))
