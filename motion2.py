@@ -5,9 +5,11 @@ import random
 import threading
 import time
 import RPi.GPIO as GPIO
+import numpy as np
 from svg.path import Path, parse_path
 from xml.dom.minidom import parse
 from gfxutil import *
+
 
 
 # INPUT CONFIG for eye motion ----------------------------------------------
