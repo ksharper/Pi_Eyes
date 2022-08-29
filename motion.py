@@ -35,12 +35,12 @@ while True:
 #    thresh_frame = cv2.dilate(thresh_frame, None, iterations = 2)
   
     # Finding contour of moving object
-#    cnts,_ = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts,_ = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
   
-#    for contour in cnts:
-#        if cv2.contourArea(contour) < 10:
-#            cv2.fillPoly(thresh_frame, pts=[contour], color=0)
-#            continue
+    for contour in cnts:
+        if cv2.contourArea(contour) < 10:
+            cv2.fillPoly(thresh_frame, pts=[contour], color=0)
+            continue
 
 #    thresh_frame = cv2.morphologyEx(thresh_frame, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (51,51)));
 
