@@ -44,7 +44,7 @@ while True:
 
 #    thresh_frame = cv2.morphologyEx(thresh_frame, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (51,51)));
 
-    cnts = cv2.convexHell(cnts)
+    cnts = cv2.convexHull(cnts)
 
     (x, y, w, h) = cv2.boundingRect(cnts)
     # making green rectangle around the moving object
