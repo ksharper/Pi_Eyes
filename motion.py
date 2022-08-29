@@ -34,7 +34,7 @@ while True:
     # If change in between static background and
     # current frame is greater than 30 it will show white color(255)
     thresh_frame = cv2.threshold(diff_frame, 20, 255, cv2.THRESH_BINARY)[1]
-#    thresh_frame = cv2.dilate(thresh_frame, None, iterations = 2)
+    thresh_frame = cv2.dilate(thresh_frame, None, iterations = 2)
   
     # Finding contour of moving object
     cnts,_ = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -50,10 +50,10 @@ while True:
         (x, y, w, h) = cv2.boundingRect(cnts)
         # making green rectangle around the moving object
 
-        x_center = math.trunc(x + (w/2))
-        y_center = math.trunc(y + (h/2))
+#        x_center = math.trunc(x + (w/2))
+#        y_center = math.trunc(y + (h/2))
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
-        cv2.rectangle(frame, (x_center, y_center), (x_center + 1, y_center + 1), (255, 0, 0), 3)
+#        cv2.rectangle(frame, (x_center, y_center), (x_center + 1, y_center + 1), (255, 0, 0), 3)
         
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
@@ -64,10 +64,10 @@ while True:
   
     # Displaying the black and white image in which if
     # intensity difference greater than 30 it will appear white
-#    cv2.imshow("Threshold Frame", thresh_frame)
+    cv2.imshow("Threshold Frame", thresh_frame)
   
     # Displaying color frame with contour of motion of object
-    cv2.imshow("Color Frame", frame)
+#    cv2.imshow("Color Frame", frame)
   
 #    previous_back = gray
 
