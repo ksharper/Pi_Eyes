@@ -351,7 +351,7 @@ def frame(p):
     # Displaying color frame with contour of motion of object
 #    cv2.imshow("Color Frame", frame)
   
-    previous_back = gray
+    #previous_back = gray
 
     # Regenerate iris geometry only if size changed by >= 1/2 pixel
     if abs(p - prevPupilScale) >= irisRegenThreshold:
