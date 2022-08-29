@@ -322,6 +322,8 @@ def frame(p):
         # if y_center - previous_y < max_move:
         #     y_center = previous_y - max_move
 
+        print(x_center,y_center)
+
         curX = ((200 + x_center)/4) + 270
         curY = ((100 - y_center)/4) + 10
  
