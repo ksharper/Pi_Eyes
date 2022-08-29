@@ -324,8 +324,8 @@ def frame(p):
 
         print(x_center,y_center)
 
-        curX = ((200 + x_center)/4) + 270
-        curY = ((100 - y_center)/4) + 10
+        curX = ((320 + x_center)/6) + 270
+        curY = ((240 - y_center)/6) + 10
  
         previous_x = x_center
         previous_y = y_center
