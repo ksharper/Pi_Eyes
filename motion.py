@@ -42,7 +42,7 @@ while True:
             cv2.fillPoly(thresh_frame, pts=[contour], color=0)
             continue
 
-#    thresh_frame = cv2.morphologyEx(thresh_frame, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (51,51)));
+    thresh_frame = cv2.morphologyEx(thresh_frame, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (51,51)));
 
 
 
