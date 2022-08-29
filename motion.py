@@ -1,5 +1,6 @@
 # importing OpenCV, time and Pandas library
 import cv2
+import numpy as np
   
 # Assigning our static_back to None
 previous_back = None
