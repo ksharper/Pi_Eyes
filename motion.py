@@ -53,7 +53,7 @@ while True:
         x_center = math.trunc((x+w)/2)
         y_center = math.trunc((y+h)/2)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
-        cv2.rectangle(frame, (x_center, y_center), (x_center + 1, y_center + 1), (0, 0, 255), 3)
+        cv2.rectangle(frame, (x_center, y_center), (x_center + 1, y_center + 1), (255, 0, 0), 3)
         
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
