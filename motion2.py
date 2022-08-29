@@ -313,14 +313,14 @@ def frame(p):
         # Eye position from analog inputs
         x_center = (x+w)/2
         y_center = (y+h)/2
-        # if x_center - previous_x > max_move:
-        #     x_center = previous_x + max_move
-        # if x_center - previous_x < max_move:
-        #     x_center = previous_x - max_move
-        # if y_center - previous_y > max_move:
-        #     y_center = previous_y + max_move
-        # if y_center - previous_y < max_move:
-        #     y_center = previous_y - max_move
+        if x_center - previous_x > max_move:
+            x_center = previous_x + max_move
+        if x_center - previous_x < max_move:
+            x_center = previous_x - max_move
+        if y_center - previous_y > max_move:
+            y_center = previous_y + max_move
+        if y_center - previous_y < max_move:
+            y_center = previous_y - max_move
 
         curX = ((200 + x_center)/4) + 270
         curY = ((100 - y_center)/4) + 10
