@@ -49,7 +49,8 @@ while True:
         (x, y, w, h) = cv2.boundingRect(cnts)
         # making green rectangle around the moving object
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
- 
+        cv2.rectangle(frame, ((x+w)/2, (y+h)/2), ((x+w)/2+1, (y+h)/2+1), (0, 0, 255), 3)
+        
     # Displaying image in gray_scale
 #    cv2.imshow("Gray Frame", gray)
   
