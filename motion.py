@@ -2,7 +2,7 @@
 import cv2
 import numpy as np
 import math
-  
+
 # Assigning our static_back to None
 previous_back = None
   
@@ -50,8 +50,8 @@ while True:
         (x, y, w, h) = cv2.boundingRect(cnts)
         # making green rectangle around the moving object
 
-        x_center = trunc((x+w)/2)
-        y_center = trunc((y+h)/2)
+        x_center = math.trunc((x+w)/2)
+        y_center = math.trunc((y+h)/2)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
         cv2.rectangle(frame, (x_center, y_center), (x_center + 1, y_center + 1), (0, 0, 255), 3)
         
