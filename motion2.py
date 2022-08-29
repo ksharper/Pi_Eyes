@@ -269,195 +269,192 @@ def frame(p):
 
     # Reading frame(image) from video
     check, frame = video.read()
-    
-    # if frame is read correctly ret is True
-    if check:
  
-        # Converting color image to gray_scale image
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    
-        # Converting gray scale image to GaussianBlur 
-        # so that change can be find easily
-        gray = cv2.GaussianBlur(gray, (21, 21), 0)
-    
-        # In first iteration we assign the value 
-        # of static_back to our first frame
-        if previous_back is None:
-            previous_back = gray
-    
-        # Difference between static background 
-        # and current frame(which is GaussianBlur)
-        diff_frame = cv2.absdiff(previous_back, gray)
-    
-        # If change in between static background and
-        # current frame is greater than 30 it will show white color(255)
-        thresh_frame = cv2.threshold(diff_frame, 10, 255, cv2.THRESH_BINARY)[1]
-        thresh_frame = cv2.dilate(thresh_frame, None, iterations = 2)
-    
-        # Finding contour of moving object
-        cnts,_ = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
-        if cnts:
-            prev_area = 0
-            largest_countour = 0
-            for contour in cnts:
-                #if cv2.contourArea(contour) < 100:
-                #    continue
-
-                area = cv2.contourArea(contour)
-                if area > prev_area:
-                    prev_area = area
-                    largest_countour = contour
-
-            (x, y, w, h) = cv2.boundingRect(largest_countour)
-            # making green rectangle around the moving object
-            #cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
-
-            # Eye position from analog inputs
-            x_center = (x+w)/2
-            y_center = (y+h)/2
-            # if x_center - previous_x > max_move:
-            #     x_center = previous_x + max_move
-            # if x_center - previous_x < max_move:
-            #     x_center = previous_x - max_move
-            # if y_center - previous_y > max_move:
-            #     y_center = previous_y + max_move
-            # if y_center - previous_y < max_move:
-            #     y_center = previous_y - max_move
-
-            curX = ((200 + x_center)/4) + 270
-            curY = ((100 - y_center)/4) + 10
-    
-            previous_x = x_center
-            previous_y = y_center
-
-        # Displaying image in gray_scale
-    #    cv2.imshow("Gray Frame", gray)
-    
-        # Displaying the difference in currentframe to
-        # the staticframe(very first_frame)
-    #    cv2.imshow("Difference Frame", diff_frame)
-    
-        # Displaying the black and white image in which if
-        # intensity difference greater than 30 it will appear white
-    #    cv2.imshow("Threshold Frame", thresh_frame)
-    
-        # Displaying color frame with contour of motion of object
-    #    cv2.imshow("Color Frame", frame)
-    
+    # Converting color image to gray_scale image
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+  
+    # Converting gray scale image to GaussianBlur 
+    # so that change can be find easily
+    gray = cv2.GaussianBlur(gray, (21, 21), 0)
+  
+    # In first iteration we assign the value 
+    # of static_back to our first frame
+    if previous_back is None:
         previous_back = gray
+  
+    # Difference between static background 
+    # and current frame(which is GaussianBlur)
+    diff_frame = cv2.absdiff(previous_back, gray)
+  
+    # If change in between static background and
+    # current frame is greater than 30 it will show white color(255)
+    thresh_frame = cv2.threshold(diff_frame, 10, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame = cv2.dilate(thresh_frame, None, iterations = 2)
+  
+    # Finding contour of moving object
+    cnts,_ = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+  
+    if cnts:
+        prev_area = 0
+        largest_countour = 0
+        for contour in cnts:
+            #if cv2.contourArea(contour) < 100:
+            #    continue
 
-        # Regenerate iris geometry only if size changed by >= 1/2 pixel
-        if abs(p - prevPupilScale) >= irisRegenThreshold:
-            # Interpolate points between min and max pupil sizes
-            interPupil = points_interp(pupilMinPts, pupilMaxPts, p)
-            # Generate mesh between interpolated pupil and iris bounds
-            mesh = points_mesh((None, interPupil, irisPts), 4, -irisZ, True)
-            iris.re_init(pts=mesh)
-            prevPupilScale = p
+            area = cv2.contourArea(contour)
+            if area > prev_area:
+                prev_area = area
+                largest_countour = contour
 
-        # Eyelid WIP
+        (x, y, w, h) = cv2.boundingRect(largest_countour)
+        # making green rectangle around the moving object
+        #cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
 
-        if AUTOBLINK and (now - timeOfLastBlink) >= timeToNextBlink:
-            # Similar to movement, eye blinks are slower in this version
-            timeOfLastBlink = now
-            duration        = random.uniform(0.06, 0.12)
-            if blinkState != 1:
-                blinkState     = 1 # ENBLINK
-                blinkStartTime = now
-                blinkDuration  = duration
-            timeToNextBlink = duration * 3 + random.uniform(0.0, 4.0)
+        # Eye position from analog inputs
+        x_center = (x+w)/2
+        y_center = (y+h)/2
+        # if x_center - previous_x > max_move:
+        #     x_center = previous_x + max_move
+        # if x_center - previous_x < max_move:
+        #     x_center = previous_x - max_move
+        # if y_center - previous_y > max_move:
+        #     y_center = previous_y + max_move
+        # if y_center - previous_y < max_move:
+        #     y_center = previous_y - max_move
 
-        if blinkState: # Eye currently winking/blinking?
-            # Check if blink time has elapsed...
-            if (now - blinkStartTime) >= blinkDuration:
-                # Yes...increment blink state, unless...
-                if (blinkState == 1 and # Enblinking and...
-                    (BLINK_PIN >= 0 and    # blink pin held
-                    GPIO.input(BLINK_PIN) == GPIO.LOW)):
-                    # Don't advance yet; eye is held closed
-                    pass
+        curX = ((200 + x_center)/4) + 270
+        curY = ((100 - y_center)/4) + 10
+ 
+        previous_x = x_center
+        previous_y = y_center
+
+    # Displaying image in gray_scale
+#    cv2.imshow("Gray Frame", gray)
+  
+    # Displaying the difference in currentframe to
+    # the staticframe(very first_frame)
+#    cv2.imshow("Difference Frame", diff_frame)
+  
+    # Displaying the black and white image in which if
+    # intensity difference greater than 30 it will appear white
+#    cv2.imshow("Threshold Frame", thresh_frame)
+  
+    # Displaying color frame with contour of motion of object
+#    cv2.imshow("Color Frame", frame)
+  
+    previous_back = gray
+
+    # Regenerate iris geometry only if size changed by >= 1/2 pixel
+    if abs(p - prevPupilScale) >= irisRegenThreshold:
+        # Interpolate points between min and max pupil sizes
+        interPupil = points_interp(pupilMinPts, pupilMaxPts, p)
+        # Generate mesh between interpolated pupil and iris bounds
+        mesh = points_mesh((None, interPupil, irisPts), 4, -irisZ, True)
+        iris.re_init(pts=mesh)
+        prevPupilScale = p
+
+    # Eyelid WIP
+
+    if AUTOBLINK and (now - timeOfLastBlink) >= timeToNextBlink:
+        # Similar to movement, eye blinks are slower in this version
+        timeOfLastBlink = now
+        duration        = random.uniform(0.06, 0.12)
+        if blinkState != 1:
+            blinkState     = 1 # ENBLINK
+            blinkStartTime = now
+            blinkDuration  = duration
+        timeToNextBlink = duration * 3 + random.uniform(0.0, 4.0)
+
+    if blinkState: # Eye currently winking/blinking?
+        # Check if blink time has elapsed...
+        if (now - blinkStartTime) >= blinkDuration:
+            # Yes...increment blink state, unless...
+            if (blinkState == 1 and # Enblinking and...
+                (BLINK_PIN >= 0 and    # blink pin held
+                 GPIO.input(BLINK_PIN) == GPIO.LOW)):
+                # Don't advance yet; eye is held closed
+                pass
+            else:
+                blinkState += 1
+                if blinkState > 2:
+                    blinkState = 0 # NOBLINK
                 else:
-                    blinkState += 1
-                    if blinkState > 2:
-                        blinkState = 0 # NOBLINK
-                    else:
-                        blinkDuration *= 2.0
-                        blinkStartTime = now
+                    blinkDuration *= 2.0
+                    blinkStartTime = now
+    else:
+        if BLINK_PIN >= 0 and GPIO.input(BLINK_PIN) == GPIO.LOW:
+            blinkState     = 1 # ENBLINK
+            blinkStartTime = now
+            blinkDuration  = random.uniform(0.035, 0.06)
+
+    if TRACKING:
+        # 0 = fully up, 1 = fully down
+        n = 0.5 - curY / 70.0
+        if   n < 0.0: n = 0.0
+        elif n > 1.0: n = 1.0
+        trackingPos = (trackingPos * 3.0 + n) * 0.25
+
+    if blinkState:
+        n = (now - blinkStartTime) / blinkDuration
+        if n > 1.0: n = 1.0
+        if blinkState == 2: n = 1.0 - n
+    else:
+        n = 0.0
+    newUpperLidWeight = trackingPos + (n * (1.0 - trackingPos))
+    newLowerLidWeight = (1.0 - trackingPos) + (n * trackingPos)
+
+    if (ruRegen or (abs(newUpperLidWeight - prevUpperLidWeight) >=
+      upperLidRegenThreshold)):
+        newUpperLidPts = points_interp(upperLidOpenPts,
+          upperLidClosedPts, newUpperLidWeight)
+        if newUpperLidWeight > prevUpperLidWeight:
+            upperEyelid.re_init(pts=points_mesh(
+              (upperLidEdgePts, prevUpperLidPts,
+              newUpperLidPts), 5, 0, False))
         else:
-            if BLINK_PIN >= 0 and GPIO.input(BLINK_PIN) == GPIO.LOW:
-                blinkState     = 1 # ENBLINK
-                blinkStartTime = now
-                blinkDuration  = random.uniform(0.035, 0.06)
+            upperEyelid.re_init(pts=points_mesh(
+              (upperLidEdgePts, newUpperLidPts,
+              prevUpperLidPts), 5, 0, False))
+        prevUpperLidWeight = newUpperLidWeight
+        prevUpperLidPts    = newUpperLidPts
+        ruRegen = True
+    else:
+        ruRegen = False
 
-        if TRACKING:
-            # 0 = fully up, 1 = fully down
-            n = 0.5 - curY / 70.0
-            if   n < 0.0: n = 0.0
-            elif n > 1.0: n = 1.0
-            trackingPos = (trackingPos * 3.0 + n) * 0.25
-
-        if blinkState:
-            n = (now - blinkStartTime) / blinkDuration
-            if n > 1.0: n = 1.0
-            if blinkState == 2: n = 1.0 - n
+    if (rlRegen or (abs(newLowerLidWeight - prevLowerLidWeight) >=
+      lowerLidRegenThreshold)):
+        newLowerLidPts = points_interp(lowerLidOpenPts,
+          lowerLidClosedPts, newLowerLidWeight)
+        if newLowerLidWeight > prevLowerLidWeight:
+            lowerEyelid.re_init(pts=points_mesh(
+              (lowerLidEdgePts, prevLowerLidPts,
+              newLowerLidPts), 5, 0, False))
         else:
-            n = 0.0
-        newUpperLidWeight = trackingPos + (n * (1.0 - trackingPos))
-        newLowerLidWeight = (1.0 - trackingPos) + (n * trackingPos)
+            lowerEyelid.re_init(pts=points_mesh(
+              (lowerLidEdgePts, newLowerLidPts,
+              prevLowerLidPts), 5, 0, False))
+        prevLowerLidWeight = newLowerLidWeight
+        prevLowerLidPts    = newLowerLidPts
+        rlRegen = True
+    else:
+        rlRegen = False
 
-        if (ruRegen or (abs(newUpperLidWeight - prevUpperLidWeight) >=
-        upperLidRegenThreshold)):
-            newUpperLidPts = points_interp(upperLidOpenPts,
-            upperLidClosedPts, newUpperLidWeight)
-            if newUpperLidWeight > prevUpperLidWeight:
-                upperEyelid.re_init(pts=points_mesh(
-                (upperLidEdgePts, prevUpperLidPts,
-                newUpperLidPts), 5, 0, False))
-            else:
-                upperEyelid.re_init(pts=points_mesh(
-                (upperLidEdgePts, newUpperLidPts,
-                prevUpperLidPts), 5, 0, False))
-            prevUpperLidWeight = newUpperLidWeight
-            prevUpperLidPts    = newUpperLidPts
-            ruRegen = True
-        else:
-            ruRegen = False
+    # Draw eye
 
-        if (rlRegen or (abs(newLowerLidWeight - prevLowerLidWeight) >=
-        lowerLidRegenThreshold)):
-            newLowerLidPts = points_interp(lowerLidOpenPts,
-            lowerLidClosedPts, newLowerLidWeight)
-            if newLowerLidWeight > prevLowerLidWeight:
-                lowerEyelid.re_init(pts=points_mesh(
-                (lowerLidEdgePts, prevLowerLidPts,
-                newLowerLidPts), 5, 0, False))
-            else:
-                lowerEyelid.re_init(pts=points_mesh(
-                (lowerLidEdgePts, newLowerLidPts,
-                prevLowerLidPts), 5, 0, False))
-            prevLowerLidWeight = newLowerLidWeight
-            prevLowerLidPts    = newLowerLidPts
-            rlRegen = True
-        else:
-            rlRegen = False
+    iris.rotateToX(curY)
+    iris.rotateToY(curX)
+    iris.draw()
+    eye.rotateToX(curY)
+    eye.rotateToY(curX)
+    eye.draw()
+    upperEyelid.draw()
+    lowerEyelid.draw()
 
-        # Draw eye
-
-        iris.rotateToX(curY)
-        iris.rotateToY(curX)
-        iris.draw()
-        eye.rotateToX(curY)
-        eye.rotateToY(curX)
-        eye.draw()
-        upperEyelid.draw()
-        lowerEyelid.draw()
-
-        k = mykeys.read()
-        if k==27:
-            mykeys.close()
-            DISPLAY.stop()
-            exit(0)
+    k = mykeys.read()
+    if k==27:
+        mykeys.close()
+        DISPLAY.stop()
+        exit(0)
 
 
 def split( # Recursive simulated pupil response when no analog sensor
