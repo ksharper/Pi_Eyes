@@ -387,9 +387,9 @@ def frame(p):
         x_center = x+(w/2)
         y_center = y+(h/2)
         if x_center - previous_x > max_move:
-            x_center = previous_x + max_move
+            x_center = previous_x + max_move + 1
         if x_center - previous_x < max_move:
-            x_center = previous_x - max_move
+            x_center = previous_x - max_move - 1
         if y_center - previous_y > max_move:
             y_center = previous_y + max_move
         if y_center - previous_y < max_move:
