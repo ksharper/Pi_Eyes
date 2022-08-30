@@ -333,10 +333,8 @@ def frame(p):
     dtR  = now - startTimeR
 
     frames += 1
-#	if(now > beginningTime):
-#		print(frames/(now-beginningTime))
 
- # Reading frame(image) from video
+     # Reading frame(image) from video
     check, frame = video.read()
  
     # Converting color image to gray_scale image
@@ -387,16 +385,14 @@ def frame(p):
         # Eye position from analog inputs
         x_center = x+(w/2)
         y_center = y+(h/2)
-        # if x_center - previous_x > max_move:
-        #     x_center = previous_x + max_move
-        # if x_center - previous_x < max_move:
-        #     x_center = previous_x - max_move
-        # if y_center - previous_y > max_move:
-        #     y_center = previous_y + max_move
-        # if y_center - previous_y < max_move:
-        #     y_center = previous_y - max_move
-
-        print(x_center,y_center)
+        if x_center - previous_x > max_move:
+            x_center = previous_x + max_move
+        if x_center - previous_x < max_move:
+            x_center = previous_x - max_move
+        if y_center - previous_y > max_move:
+            y_center = previous_y + max_move
+        if y_center - previous_y < max_move:
+            y_center = previous_y - max_move
 
         curX = ((320 + x_center)/6) + 260
         curY = ((240 - y_center)/6)
