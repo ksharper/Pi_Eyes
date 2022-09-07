@@ -74,7 +74,7 @@ DISPLAY.set_background(0, 0, 0, 1) # r,g,b,alpha
 # the center point of the screen to the center of each eye.  This geometry
 # is explained more in-depth in fbx2.c.
 eyePosition = DISPLAY.width / 4
-eyeRadius   = 160  # Default; use 240 for IPS screens
+eyeRadius   = 150  # Default; use 240 for IPS screens
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--radius", type=int)
