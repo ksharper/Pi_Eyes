@@ -327,7 +327,7 @@ def frame(p):
     global trackingPos
     global trackingPosR
 
-    DISPLAY.loop_running()
+#    DISPLAY.loop_running()
 
     now = time.time()
     dt  = now - startTime
@@ -411,7 +411,7 @@ def frame(p):
     # Displaying the black and white image in which if
     # intensity difference greater than 30 it will appear white
     cv2.imshow("Threshold Frame", thresh_frame)
-    cv2.moveWindow("Threshold Frame", 640,0);
+#    cv2.moveWindow("Threshold Frame", 640,0);
   
     # Displaying color frame with contour of motion of object
 #    cv2.imshow("Color Frame", frame)
